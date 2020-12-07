@@ -1,9 +1,9 @@
 const express = require('express')
-const request = require('request')
 const axios = require('axios')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const { API_KEY } = require('./config/keys')
+var parse = require('parse-duration')
 
 const app = express()
 
@@ -70,7 +70,7 @@ app.post('/', async (req, res, next) => {
                     id: result['id'],
                     url: `https://www.youtube.com/watch?v=${ result["id"] }`,
                     thumbnail: result['snippet']['thumbnails']['high']['url'],
-                    duration: result['contentDetails']['duration'],
+                    duration: parse(result['contentDetails']['duration']) / 60000,
                     title: result['snippet']['title'],
                 }
                 videos.push(video_data)
