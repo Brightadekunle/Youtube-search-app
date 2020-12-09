@@ -3,7 +3,7 @@ const axios = require('axios')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const { API_KEY } = require('./config/keys')
-var parse = require('parse-duration')
+const parse = require('parse-duration')
 
 const app = express()
 
@@ -14,14 +14,15 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 
+// Renders the index page on GET request
 app.get('/', async (req, res, next) => {
-
     res.render('index', {
         videos: undefined
     });
 
 })
 
+// Handles POST request for video search
 app.post('/', async (req, res, next) => {
     const searchQuery = req.body.query
     
@@ -48,6 +49,7 @@ app.post('/', async (req, res, next) => {
                 })
         })
     
+    // Handles I'm feeling lucky button to redirect to the first video in the list
     if (req.body.submit == "lucky"){
         return res.redirect(`https://www.youtube.com/watch?v=${ videoIds[0] }`)
     }
